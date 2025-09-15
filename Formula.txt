@@ -1,0 +1,70 @@
+Expenses YTD = 
+CALCULATE(
+      [Expenses],
+      CALCULATETABLE(
+        DATESYTD('Date'[Date],"06/30"
+      )
+)
+
+
+Income YTD = 
+CALCULATE(
+[Income],
+CALCULATETABLE(
+DATESYTD('Date'[Date]),
+'Date'[DatesWithTransactions] = TRUE
+)
+)
+
+
+Net Income YTD = 
+CALCULATE(
+[Net Income],
+CALCULATETABLE(
+DATESYTD('Date'[Date]),
+'Date'[DatesWithTransactions] = TRUE
+)
+)
+
+Expenses PY = 
+CALCULATE([Expenses],SAMEPERIODLASTYEAR('Date'[Date]))
+
+Income PY = 
+CALCULATE([Income],SAMEPERIODLASTYEAR('Date'[Date]))
+
+Expenses PY YTD = 
+CALCULATE([Expenses YTD],SAMEPERIODLASTYEAR('Date'[Date]))
+
+Income PY YTD = 
+CALCULATE([Income YTD],SAMEPERIODLASTYEAR('Date'[Date])
+)
+
+Monthly Budget = CROSSJOIN(SUMMARIZE('Date','Date'[YearMonth]),Budget)
+
+Budget Amt = SUM('Monthly Budget'[Budget])
+
+Budget Amt = CALCULATE( SUM('Monthly Budget'[Budget]),
+USERELATIONSHIP('Date'[YearMonth], 'Monthly Budget'[YearMonth]))
+
+Budget Amt YTD = CALCULATE([Budget Amt],
+CALCULATETABLE(DATESYTD('Date'[Date]),
+'Date'[DatesWithTransactions] = True 
+))
+
+Budget Amt YTD = CALCULATE([Budget Amt],
+DATESYTD('Date'[Date])
+)
+
+Budget Remaining ($) = [Budget Amt] - [Expenses]
+
+Budget Remaining (%) = DIVIDE(Budget[Budget Remaining ($)],[Budget Amt],0)
+free custom visuals for power bi\
+
+Expenses MTD = 
+CALCULATE(
+      [Expenses],
+      CALCULATETABLE(
+        DATESMTD('Date'[Date]),
+        'Date'[DatesWithTransactions] = TRUE
+      )
+)
